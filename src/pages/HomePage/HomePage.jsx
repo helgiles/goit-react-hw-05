@@ -16,7 +16,6 @@ export default function HomePage() {
         setError(false);
         const data = await fetchTrendingMovies();
         setMovies(data);
-        console.log(data);
       } catch (error) {
         setError(true);
       } finally {
@@ -31,7 +30,6 @@ export default function HomePage() {
       <h1>Trending today</h1>
       {error && <ErrorMessage />}
       {loading && <Loader />}
-
       {movies.length > 0 && !loading && <MovieList movies={movies} />}
     </div>
   );

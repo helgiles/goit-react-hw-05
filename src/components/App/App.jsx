@@ -21,7 +21,6 @@ export default function App() {
   return (
     <div>
       <Navigation />
-
       <Suspense fallback={<div>LOADING PAGE...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />

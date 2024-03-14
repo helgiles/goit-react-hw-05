@@ -1,11 +1,5 @@
 import { useEffect, useState, Suspense } from 'react';
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { IMAGE_URL, fetchMoviesId } from '../../components/movie-api';
 import Loader from '../../components/Loader/Loader';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
@@ -17,7 +11,7 @@ export default function MovieDetailsPage() {
 
   const { movieId } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
+  console.log(location);
 
   useEffect(() => {
     async function getMovie() {
@@ -37,12 +31,9 @@ export default function MovieDetailsPage() {
 
   const getYear = () => new Date(movie.release_date).getFullYear();
 
-  // Перевірка наявності state.from і використання попередньої сторінки, або кореневої
-  const backLinkHref = location.state?.from || '/';
-
   return (
     <div>
-      <button onClick={() => navigate(backLinkHref)}>Go back</button>
+      <Link to={location.state}>Go back</Link>
       {loading && <Loader />}
       {error && <ErrorMessage />}
       {movie && (

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { fetchMovieSearch } from '../../components/movie-api';
 import MovieList from '../../components/MovieList/MovieList';
 import Loader from '../../components/Loader/Loader';
@@ -9,23 +10,38 @@ export default function MoviesPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [params, setSearchParams] = useSearchParams();
 
-  const handleSearch = async e => {
-    e.preventDefault();
-
-    if (!searchQuery) return;
-
-    try {
-      setLoading(true);
-      setError(false);
-      const data = await fetchMovieSearch(searchQuery);
-      setMovies(data);
-      console.log(data);
-    } catch (error) {
-      setError(true);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    const search = params.get('search');
+    if (search) {
+      setSearchQuery(search);
     }
+  }, [params]);
+
+  useEffect(() => {
+    const searchMovies = async () => {
+      if (!searchQuery) return;
+
+      try {
+        setLoading(true);
+        setError(false);
+        const data = await fetchMovieSearch(searchQuery);
+        setMovies(data);
+        // setSearchParams({ search: searchQuery });
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    searchMovies();
+  }, [searchQuery]);
+
+  const handleSearch = event => {
+    event.preventDefault();
+    setSearchParams({ search: searchQuery });
   };
 
   return (
@@ -36,7 +52,7 @@ export default function MoviesPage() {
           type="text"
           placeholder="Enter movie title..."
           value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
+          onChange={event => setSearchQuery(event.target.value)}
         />
         <button type="submit">Search</button>
       </form>
@@ -49,52 +65,62 @@ export default function MoviesPage() {
   );
 }
 
+// import { useState, useEffect } from 'react';
+// import { useSearchParams } from 'react-router-dom';
+// import { fetchMovieSearch } from '../../components/movie-api';
+// import MovieList from '../../components/MovieList/MovieList';
+// import Loader from '../../components/Loader/Loader';
+// import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+
 // export default function MoviesPage() {
-//   const [query, setQuery] = useState('');
 //   const [movies, setMovies] = useState([]);
-//   const [error, setError] = useState(false);
 //   const [loading, setLoading] = useState(false);
-
-//   const handleSubmit = event => {
-//     event.preventDefault();
-//     const form = event.target;
-//     const search = form.elements.searchInput.value;
-
-//     event.target.reset();
-//   };
+//   const [error, setError] = useState(false);
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [params, setSearchParams] = useSearchParams();
 
 //   useEffect(() => {
-//     async function getMovie() {
-//       try {
-//         setLoading(true);
-//         setError(false);
-//         const data = await fetchMovieSearch(query);
-//         setQuery(data);
-//       } catch (error) {
-//         setError(true);
-//       } finally {
-//         setLoading(false);
-//       }
+//     const search = params.get('search');
+//     if (search) {
+//       setSearchQuery(search);
 //     }
-//     getMovie();
-//   }, [query]);
+//   }, [params]);
+
+//   const handleSearch = async event => {
+//     event.preventDefault();
+
+//     if (!searchQuery) return;
+
+//     try {
+//       setLoading(true);
+//       setError(false);
+//       const data = await fetchMovieSearch(searchQuery);
+//       setMovies(data);
+//       setSearchParams({ search: searchQuery });
+//     } catch (error) {
+//       setError(true);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
 //   return (
 //     <div>
-//       <form onSubmit={handleSubmit}>
+//       <h1>Movies</h1>
+//       <form onSubmit={handleSearch}>
 //         <input
-//           name="searchInput"
 //           type="text"
-//           // value={query}
-//           autoComplete="off"
-//           autoFocus
-//           placeholder="Search movies"
+//           placeholder="Enter movie title..."
+//           value={searchQuery}
+//           onChange={event => setSearchQuery(event.target.value)}
 //         />
 //         <button type="submit">Search</button>
 //       </form>
+
 //       {error && <ErrorMessage />}
 //       {loading && <Loader />}
-//       {movies.length > 0 && !loading && <MovieList movies={query} />}
+
+//       {movies.length > 0 && !loading && <MovieList movies={movies} />}
 //     </div>
 //   );
 // }
