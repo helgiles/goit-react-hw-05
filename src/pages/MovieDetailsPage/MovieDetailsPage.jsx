@@ -1,5 +1,5 @@
 import css from './MovieDetailsPage.module.css';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { IMAGE_URL, fetchMoviesId } from '../../components/movie-api';
 import Loader from '../../components/Loader/Loader';
@@ -12,6 +12,7 @@ export default function MovieDetailsPage() {
 
   const { movieId } = useParams();
   const location = useLocation();
+  const backLinkRef = useRef(location.state ?? '/movies');
   console.log(location);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function MovieDetailsPage() {
 
   return (
     <div className={css.movieDetails}>
-      <Link className={css.link} to={location.state ?? '/'}>
+      <Link className={css.link} to={backLinkRef.current}>
         Go back
       </Link>
 
