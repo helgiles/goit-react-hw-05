@@ -1,0 +1,36 @@
+.movieDetails {
+  padding: 16px;
+}
+.link {
+  display: block;
+  padding: 16px 24px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mainInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  border: 1px solid rgb(131, 131, 131);
+  border-radius: 8px;
+  padding: 8px;
+}
+.addInfo {
+  padding: 8px;
+  border: 1px solid rgb(131, 131, 131);
+  border-radius: 8px;
+}
+.list {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}

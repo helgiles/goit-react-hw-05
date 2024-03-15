@@ -1,0 +1,20 @@
+.cast {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  margin: 0;
+  list-style-type: none;
+}
+.item {
+  width: 280px;
+  height: 420px;
+}
+.image {
+  width: 250px;
+  height: 360px;
+  object-fit: cover;
+}

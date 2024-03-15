@@ -1,3 +1,4 @@
+import css from './HomePage.module.css';
 import { useEffect, useState } from 'react';
 import { fetchTrendingMovies } from '../../components/movie-api';
 import MovieList from '../../components/MovieList/MovieList';
@@ -26,8 +27,8 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
-      <h1>Trending today</h1>
+    <div className={css.homePage}>
+      <h1 className={css.title}>Trending today</h1>
       {error && <ErrorMessage />}
       {loading && <Loader />}
       {movies.length > 0 && !loading && <MovieList movies={movies} />}

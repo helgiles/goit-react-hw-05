@@ -1,3 +1,4 @@
+import css from './MoviesPage.module.css';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { fetchMovieSearch } from '../../components/movie-api';
@@ -50,9 +51,9 @@ export default function MoviesPage() {
   };
 
   return (
-    <div>
-      <h1>Movies</h1>
-      <form onSubmit={handleSearch}>
+    <div className={css.moviesPage}>
+      <h1 className={css.title}>Movies</h1>
+      <form className={css.form} onSubmit={handleSearch}>
         <input
           type="text"
           name="query"

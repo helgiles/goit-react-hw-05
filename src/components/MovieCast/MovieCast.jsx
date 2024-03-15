@@ -1,3 +1,4 @@
+import css from './MovieCast.module.css';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IMAGE_URL, fetchMovieCast } from '../movie-api';
@@ -35,11 +36,12 @@ export default function MovieCast() {
     <div>
       {loading && <Loader />}
       {error && <ErrorMessage />}
-      <ul>
+      <ul className={css.cast}>
         {cast.map(castItem => {
           return (
-            <li key={castItem.id}>
+            <li className={css.item} key={castItem.id}>
               <img
+                className={css.image}
                 src={`${IMAGE_URL}${castItem.profile_path}`}
                 alt={castItem.name}
               />

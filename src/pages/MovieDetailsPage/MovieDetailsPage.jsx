@@ -1,3 +1,4 @@
+import css from './MovieDetailsPage.module.css';
 import { useEffect, useState, Suspense } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { IMAGE_URL, fetchMoviesId } from '../../components/movie-api';
@@ -32,57 +33,65 @@ export default function MovieDetailsPage() {
   const getYear = () => new Date(movie.release_date).getFullYear();
 
   return (
-    <div>
-      <Link to={location.state}>Go back</Link>
-      {loading && <Loader />}
-      {error && <ErrorMessage />}
-      {movie && (
-        <div>
-          <div>
-            <div>
-              <img
-                src={`${IMAGE_URL}${movie.backdrop_path}`}
-                alt={movie.title}
-              />
-            </div>
-            <div>
-              <h3>
-                {movie.title} ({getYear()})
-              </h3>
-              <p>User score {movie.vote_average}</p>
-            </div>
-            <div>
-              <h3>Overview</h3>
-              <p>{movie.overview}</p>
-            </div>
-            <div>
-              <h3>Genres</h3>
-              <ul>
-                {movie.genres.map(genre => (
-                  <li key={genre.id}>
-                    <p>{genre.name}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <h3>Additional information</h3>
-            <ul>
-              <li>
-                <Link to="cast">Cast</Link>
-              </li>
-              <li>
-                <Link to="reviews">Reviews</Link>
-              </li>
-            </ul>
+    <div className={css.movieDetails}>
+      <Link className={css.link} to={location.state ?? '/'}>
+        Go back
+      </Link>
 
-            <Suspense fallback={<div>Loading subpage...</div>}>
-              <Outlet />
-            </Suspense>
+      <div className={css.container}>
+        {loading && <Loader />}
+        {error && <ErrorMessage />}
+        {movie && (
+          <div className={css.card}>
+            <div className={css.mainInfo}>
+              <div>
+                <img
+                  src={`${IMAGE_URL}${movie.backdrop_path}`}
+                  alt={movie.title}
+                />
+              </div>
+
+              <div>
+                <div>
+                  <h3>
+                    {movie.title} ({getYear()})
+                  </h3>
+                  <p>User score {Math.round(movie.vote_average)}</p>
+                </div>
+                <div>
+                  <h3>Overview</h3>
+                  <p>{movie.overview}</p>
+                </div>
+                <div>
+                  <h3>Genres</h3>
+                  <ul>
+                    {movie.genres.map(genre => (
+                      <li key={genre.id}>
+                        <p>{genre.name}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className={css.addInfo}>
+              <h3>Additional information</h3>
+              <ul className={css.list}>
+                <li>
+                  <Link to="cast">Cast</Link>
+                </li>
+                <li>
+                  <Link to="reviews">Reviews</Link>
+                </li>
+              </ul>
+
+              <Suspense fallback={<div>Loading subpage...</div>}>
+                <Outlet />
+              </Suspense>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

@@ -40,7 +40,7 @@ export default function MovieReviews() {
           return (
             <li key={reviewsItem.id}>
               <div>
-                <p>{reviewsItem.author_details.name}</p>
+                <h4>{reviewsItem.author_details.name}</h4>
                 <p>{reviewsItem.content}</p>
               </div>
             </li>
